@@ -21,3 +21,24 @@ def test_insert_list_of_documents():
     list_doc = [{"lista": 1}, {"lista": 2}]
 
     orders_repository.insert_list_of_documents(list_doc)
+
+@pytest.mark.skip(reason="busca por varios elementos")
+def test_select_many():
+    orders_repository = OrdersRepository(conn)
+    doc_filter = {"cupom": True}
+    response =orders_repository.select_many(doc_filter)
+
+    print()
+    print(f"resposta do mongo: {response}")
+    for doc in response:
+        print(f"resposta dentro do for: {doc}")
+        print()
+        print(f"filtrando somente os itens: {doc['itens']}")
+
+def test_select_one():
+    orders_repository = OrdersRepository(conn)
+    doc_filter = {"client": "Thiago Miziara"}
+    response = orders_repository.select_one(doc_filter)
+
+    print()
+    print(f"resposta do mongo: {response}")        
