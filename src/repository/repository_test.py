@@ -35,10 +35,30 @@ def test_select_many():
         print()
         print(f"filtrando somente os itens: {doc['itens']}")
 
+@pytest.mark.skip(reason="busca por um elemento")
 def test_select_one():
     orders_repository = OrdersRepository(conn)
     doc_filter = {"client": "Thiago Miziara"}
     response = orders_repository.select_one(doc_filter)
 
     print()
-    print(f"resposta do mongo: {response}")        
+    print(f"resposta do mongo: {response}")
+
+@pytest.mark.skip(reason="busca por propriedades específicas")
+def test_select_many_with_properties():
+    orders_repository = OrdersRepository(conn)
+    doc_filter = {"cupom": True}
+    response = orders_repository.select_many_with_properties(doc_filter)
+
+    for doc in response:
+        print(f"resposta dentro do for: {doc}")
+        print()
+        print(f"filtrando somente os itens: {doc['itens']}")
+
+def test_select_if_property_exists():
+    orders_repository = OrdersRepository(conn)
+    response = orders_repository.select_if_property_exists()
+
+    for doc in response:
+        print(f"resposta dentro do for: {doc}")
+        
