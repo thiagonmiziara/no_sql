@@ -46,3 +46,31 @@ class OrdersRepository:
         collection = self.__db_connection.get_collection(self.__collection_name)
         response = collection.find_one({"_id": ObjectId(doc_id)})
         return response
+
+    def edit_register(self, doc_id: str, updated_data: dict) -> None:
+        collection = self.__db_connection.get_collection(self.__collection_name)
+        collection.update_one(
+            {"_id": ObjectId(doc_id)},
+            {"$set": updated_data}
+        )
+
+    def edit_many_registers(self, updated_data: dict, doc_filter: dict) -> None:
+        collection = self.__db_connection.get_collection(self.__collection_name)
+        collection.update_many(
+            doc_filter,
+            {"$set": updated_data}
+        )
+
+    def edit_register_with_increment(self, doc_id:str, update_data:dict) -> None:
+        collection = self.__db_connection.get_collection(self.__collection_name)
+        collection.update_one(
+            {"_id": ObjectId(doc_id)},
+            {"$inc": update_data}
+        )
+
+    def edit_register_with_decrement(self, doc_id:str, update_data:dict) -> None:
+        collection = self.__db_connection.get_collection(self.__collection_name)
+        collection.update_one(
+            {"_id": ObjectId(doc_id)},
+            {"$inc": update_data}
+        )
