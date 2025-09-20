@@ -74,3 +74,11 @@ class OrdersRepository:
             {"_id": ObjectId(doc_id)},
             {"$inc": update_data}
         )
+
+    def delete_register(self, doc_id: str) -> None:
+        collection = self.__db_connection.get_collection(self.__collection_name)
+        collection.delete_one({"_id": ObjectId(doc_id)})
+
+    def delete_many_registers(self, doc_filter: dict) -> None:
+        collection = self.__db_connection.get_collection(self.__collection_name)
+        collection.delete_many(doc_filter)

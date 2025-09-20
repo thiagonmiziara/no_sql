@@ -130,6 +130,7 @@ def test_edit_register_with_increment():
     }
     orders_repository.edit_register_with_increment(doc_id, update_data)
 
+@pytest.mark.skip(reason="edição de um registro específico")
 def test_edit_register_with_decrement():
     orders_repository = OrdersRepository(conn)
     doc_id = "68bb1ed571594250a6b80cb8"
@@ -137,3 +138,15 @@ def test_edit_register_with_decrement():
         "itens.pizza.quantidade": -11
     }
     orders_repository.edit_register_with_decrement(doc_id, update_data)
+
+@pytest.mark.skip(reason="deleção registro específico")
+def test_delete_register():
+    orders_repository = OrdersRepository(conn)
+    doc_id = "68bb230b71594250a6b80cbc"
+    orders_repository.delete_register(doc_id)
+
+@pytest.mark.skip(reason="deleção de varios registro apartir do filtro")
+def test_delete_many_registers():
+    orders_repository = OrdersRepository(conn)
+    doc_filter = {"itens.refrigerante": {"$exists": True}}
+    orders_repository.delete_many_registers(doc_filter)
