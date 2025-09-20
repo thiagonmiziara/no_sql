@@ -55,10 +55,47 @@ def test_select_many_with_properties():
         print()
         print(f"filtrando somente os itens: {doc['itens']}")
 
+@pytest.mark.skip(reason="busca por propriedades se existir")
 def test_select_if_property_exists():
     orders_repository = OrdersRepository(conn)
     response = orders_repository.select_if_property_exists()
 
     for doc in response:
         print(f"resposta dentro do for: {doc}")
-        
+
+
+@pytest.mark.skip(reason="busca por propriedades específicas")
+def test_select_many_with_multiple_filter():
+    orders_repository = OrdersRepository(conn)
+    doc_filter = {
+        "cupom": True,
+        "itens.doce": {"$exists": True}
+    }
+    response = orders_repository.select_many(doc_filter)
+
+    for doc in response:
+        print(doc)
+
+@pytest.mark.skip(reason="busca por propriedades específicas")
+def test_select_many_with_or_filter():
+    orders_repository = OrdersRepository(conn)
+    doc_filter = {
+        "$or": [
+            {"address": {"$exists": True}},
+            {"itens.doce.tipo": "chocolate"}
+        ]
+    }
+    response = orders_repository.select_many(doc_filter)
+
+    for doc in response:
+        print()
+        print(doc)
+
+@pytest.mark.skip(reason="busca por um documento específico")
+def test_select_by_object_id():
+    orders_repository = OrdersRepository(conn)
+    doc_id = "68bb1ed571594250a6b80cb8"
+    response = orders_repository.select_by_object_id(doc_id)
+
+    print()
+    print(f"resposta do mongo: {response}")
