@@ -1,6 +1,7 @@
 from bson.objectid import ObjectId
+from .interfaces.orders_repository  import  OrdersRepositoryInterface
 
-class OrdersRepository:
+class OrdersRepository(OrdersRepositoryInterface):
     def __init__(self, db_connection) -> None:
         self.__collection_name = "orders"
         self.__db_connection = db_connection
@@ -17,12 +18,12 @@ class OrdersRepository:
         collection = self.__db_connection.get_collection(self.__collection_name)
         data = collection.find(doc_filter)
         return data
-    
+
     def select_one(self,doc_filter:dict) -> dict:
         collection = self.__db_connection.get_collection(self.__collection_name)
         response = collection.find_one(doc_filter)
         return response
-    
+
     def select_many_with_properties(self, doc_filter:dict) -> list:
         collection = self.__db_connection.get_collection(self.__collection_name)
         data = collection.find(
@@ -33,7 +34,7 @@ class OrdersRepository:
             } # remove these properties from the result,
         )
         return data
-    
+
     def select_if_property_exists(self) -> dict:
         collection = self.__db_connection.get_collection(self.__collection_name)
         response = collection.find(
