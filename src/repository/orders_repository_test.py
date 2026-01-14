@@ -32,3 +32,20 @@ def test_insert_document():
 
     assert db_connection_handler_mock.get_collection_attributes["collection_name"] == "orders"
     assert collection_mock.insert_one_attributes["dict"] == my_doc
+
+
+def test_select_many_with_properties():
+    collection_mock = CollectionMock()
+    db_connection_handler_mock = DBConnectionHandlerMock(collection_mock)
+    orders_repository = OrdersRepository(db_connection_handler_mock)
+    doc_filter = {"cupom": True}
+
+    orders_repository.select_many_with_properties(doc_filter)
+
+    assert db_connection_handler_mock.get_collection_attributes["collection_name"] == "orders"
+    assert collection_mock.find_attributes['args'][0] == doc_filter
+    assert collection_mock.find_attributes['args'][1] == {
+        "_id": 0,
+        "cupom": 0,
+    }
+
